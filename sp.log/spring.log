@@ -4414,3 +4414,26 @@
 2021-10-09 12:28:05.563 DEBUG 30216 --- [http-nio-9090-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json;q=0.8', given [image/webp, image/apng, image/*, */*;q=0.8] and supported [application/json, application/*+json, application/json, application/*+json]
 2021-10-09 12:28:05.563 DEBUG 30216 --- [http-nio-9090-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [{timestamp=Sat Oct 09 12:28:05 CST 2021, status=404, error=Not Found, message=No message available,  (truncated)...]
 2021-10-09 12:28:05.577 DEBUG 30216 --- [http-nio-9090-exec-1] o.s.web.servlet.DispatcherServlet        : Exiting from "ERROR" dispatch, status 404
+2021-10-09 12:28:12.726  INFO 22504 --- [restartedMain] com.xiexin.FoodApplication               : Starting FoodApplication using Java 1.8.0_172 on LAPTOP-L4K85EQB with PID 22504 (E:\idea\oneboot\target\classes started by 林甜甜 in E:\idea\oneboot)
+2021-10-09 12:28:12.729  INFO 22504 --- [restartedMain] com.xiexin.FoodApplication               : No active profile set, falling back to default profiles: default
+2021-10-09 12:28:12.788  INFO 22504 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2021-10-09 12:28:13.488  INFO 22504 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2021-10-09 12:28:13.490  INFO 22504 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2021-10-09 12:28:13.514  INFO 22504 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 10 ms. Found 0 Redis repository interfaces.
+2021-10-09 12:28:13.992  INFO 22504 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 9090 (http)
+2021-10-09 12:28:13.999  INFO 22504 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-10-09 12:28:14.000  INFO 22504 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.53]
+2021-10-09 12:28:14.095  INFO 22504 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2021-10-09 12:28:14.095  INFO 22504 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1306 ms
+2021-10-09 12:28:14.110 DEBUG 22504 --- [restartedMain] o.s.b.w.s.ServletContextInitializerBeans : Mapping filters: characterEncodingFilter urls=[/*] order=-2147483648, formContentFilter urls=[/*] order=-9900, requestContextFilter urls=[/*] order=-105
+2021-10-09 12:28:14.111 DEBUG 22504 --- [restartedMain] o.s.b.w.s.ServletContextInitializerBeans : Mapping servlets: dispatcherServlet urls=[/]
+2021-10-09 12:28:14.168  INFO 22504 --- [restartedMain] c.a.d.s.b.a.DruidDataSourceAutoConfigure : Init DruidDataSource
+2021-10-09 12:28:14.289  INFO 22504 --- [restartedMain] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
+2021-10-09 12:28:14.807 DEBUG 22504 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2021-10-09 12:28:14.864 DEBUG 22504 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 6 mappings in 'requestMappingHandlerMapping'
+2021-10-09 12:28:14.869  INFO 22504 --- [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2021-10-09 12:28:14.896 DEBUG 22504 --- [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2021-10-09 12:28:14.906 DEBUG 22504 --- [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 0 @ExceptionHandler, 1 ResponseBodyAdvice
+2021-10-09 12:28:15.266  INFO 22504 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2021-10-09 12:28:15.291  INFO 22504 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 9090 (http) with context path ''
+2021-10-09 12:28:15.300  INFO 22504 --- [restartedMain] com.xiexin.FoodApplication               : Started FoodApplication in 3.071 seconds (JVM running for 4.738)
