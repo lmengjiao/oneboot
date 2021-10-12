@@ -10,4 +10,14 @@ public class PageController {
     public String studentlist(){
         return "studentlist";
     }
+
+    @RequestMapping("/login") // /page/studentlist
+    public String login(){
+        return "login";
+    }
+
+    @RequestMapping("/regist") // /page/studentlist
+    public String regist(){
+        return "regist";
+    }
 }

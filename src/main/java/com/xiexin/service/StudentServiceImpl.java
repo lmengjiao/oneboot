@@ -29,7 +29,8 @@ public class StudentServiceImpl implements StudentService{
     }
 
 	public int insertSelective(Student record){
-    	return studentDAO.insertSelective(record);
+
+		return studentDAO.insertSelective(record);
     }
 
 	public List<Student> selectByExample(StudentExample example){
