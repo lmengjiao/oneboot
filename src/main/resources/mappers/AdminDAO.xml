@@ -179,7 +179,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map">
+    <update id="updateByExampleSelective" parameterType="map">
     update admin
     <set>
       <if test="record.adminId != null">
@@ -263,4 +263,20 @@
       `status` = #{status,jdbcType=INTEGER}
     where admin_id = #{adminId,jdbcType=INTEGER}
   </update>
+  <!--五表联查-->
+  <select id="selectMore" resultType="java.util.Map">
+    select a.admin_name adminName , a.admin_account account ,
+    js.jiao_se_name roleName , qx.quan_xian_name qxName ,
+    qx.quan_xian_perms qxPerms , qx.quan_xian_url qxUrl
+    from admin a
+    left join ren_jiao_se rjs on rjs.ren_id = a.admin_id
+    left join jiao_se js on js.jiao_se_id = rjs.jiaose_id
+    join jiaose_quanxian jq on jq.jiaose_id = js.jiao_se_id
+    join quan_xian qx on qx.quan_xian_id = jq.quanxian_id
+    <where>
+      <if test="adminAccount!=null and adminAccount!='' ">
+       and a.admin_account = #{adminAccount}
+       </if>
+    </where>
+  </select>
 </mapper>

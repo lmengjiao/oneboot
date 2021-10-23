@@ -11,13 +11,13 @@ public class PageController {
         return "studentlist";
     }
 
-    @RequestMapping("/login") // /page/studentlist
+    @RequestMapping("/login") // /page/login
     public String login(){
         return "login";
     }
 
-    @RequestMapping("/regist") // /page/studentlist
-    public String regist(){
-        return "regist";
+    @RequestMapping("/reg") // /page/reg
+    public String reg(){
+        return "reg";
     }
 }

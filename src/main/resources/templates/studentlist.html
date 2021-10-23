@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<!--可以用shiro标签-->
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="UTF-8">
     <title>学生列表页</title>
@@ -15,6 +19,55 @@
 <body>
     <div id="app">
         <template>
+            <!--退出-->
+            <div>
+                <el-button type="info" @click="logout">退出</el-button>
+            </div>
+            <!--行修改的弹出框-->
+            <el-dialog title="修改" :visible.sync="dialogFormVisible">
+                <el-form :model="student">
+                    <el-form-item label="学生姓名" :label-width="formLabelWidth">
+                        <el-input v-model="studentEdit.studentName"></el-input>
+                    </el-form-item>
+                    <el-form-item label="学生性别" :label-width="formLabelWidth">
+                        <!--<el-input v-model="student.studentSex" ></el-input>-->
+                        <el-radio-group v-model="studentEdit.studentSex">
+                            <el-radio-button label="0">女</el-radio-button>
+                            <el-radio-button label="1">男</el-radio-button>
+                        </el-radio-group>
+                    </el-form-item>
+                    <el-form-item label="学生手机号" :label-width="formLabelWidth">
+                        <el-input v-model="studentEdit.studentPhone"></el-input>
+                    </el-form-item>
+                    <el-form-item label="学生身份证号" :label-width="formLabelWidth">
+                        <el-input v-model="studentEdit.studentCardId"></el-input>
+                    </el-form-item>
+                    <el-form-item label="学生地址" :label-width="formLabelWidth">
+                        <el-input v-model="studentEdit.studentAddress"></el-input>
+                    </el-form-item>
+                    <el-form-item label="学生入学时间" :label-width="formLabelWidth">
+                        <!--<el-input v-model="studentEdit.studentComeDate"></el-input>-->
+                        <div class="block">
+                            <el-date-picker
+                                    v-model="studentEdit.studentComeDate"
+                                    align="right"
+                                    type="datetime"
+                                    placeholder="选择日期"
+                                    :picker-options="pickerOptions">
+                            </el-date-picker>
+                        </div>
+                    </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button @click="dialogFormVisible = false">取 消</el-button>
+                    <!--<el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>-->
+                    <el-button type="primary" @click="updateStudent">确 定</el-button>
+                </div>
+            </el-dialog>
+            <!--获取用户名-->
+            <div>
+                <span th:text="${session.dbAdmin.getAdminName()}"></span>:登陆了
+            </div>
             <!--搜索框之下拉框-->
             <div>
                 <el-select v-model="student.studentSex" placeholder="请选择">
@@ -29,6 +82,11 @@
                 <el-button type="primary" icon="el-icon-search" @click="searchBtn">搜索</el-button>
             </div>
             <div>
+                <!--增加按钮-->
+                <div>
+                    <!--触发授权-->
+                   <shiro:hasRole name="人事经理"> <el-button type="primary" round @click="addBtn">增加</el-button> </shiro:hasRole>
+                </div>
             <el-table
                     :data="tableData"
                     style="width: 100%">
@@ -68,6 +126,17 @@
                         label="入学时间"
                         width="180"
                         :formatter="datess">
+                </el-table-column>
+                <el-table-column label="操作">
+                    <template slot-scope="scope">
+                        <el-button
+                                size="mini"
+                                @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                        <el-button
+                                size="mini"
+                                type="danger"
+                                @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                    </template>
                 </el-table-column>
             </el-table>
             </div>
@@ -115,12 +184,94 @@
                 studentSex:"",
                 studentComeDate:"",
             },
+            studentEdit:{},
+            dialogFormVisible: false,
+            formLabelWidth: '100px',
+            //编辑中的时间
+            pickerOptions: {
+                disabledDate(time) {
+                    return time.getTime() > Date.now();
+                },
+                shortcuts: [{
+                    text: '今天',
+                    onClick(picker) {
+                        picker.$emit('pick', new Date());
+                    }
+                }, {
+                    text: '昨天',
+                    onClick(picker) {
+                        const date = new Date();
+                        date.setTime(date.getTime() - 3600 * 1000 * 24);
+                        picker.$emit('pick', date);
+                    }
+                }, {
+                    text: '一周前',
+                    onClick(picker) {
+                        const date = new Date();
+                        date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+                        picker.$emit('pick', date);
+                    }
+                }]
+            },
         },
         methods:{
+            //退出按钮
+            logout:function(){
+                axios.get('/admin/logout').then(res=>{
+                    console.log(res);
+                    if(res.data.code==20000){
+                        //关闭弹窗
+                        this.dialogFormVisible= false,
+                            //成功的弹窗
+                            this.$message({
+                                message: '退出成功',
+                                type: 'success'
+                            });
+                        window.location.href='/page/login'
+                    }else{
+                        this.$message.error("网络繁忙，退出失败，请稍后重试");
+                    }
+                })
+            },
+            //修改弹出框中的确定按钮
+            updateStudent(){
+                //发送Ajax到后台
+                axios.post("/student/updateOne",this.studentEdit).then(res=>{
+                    console.log(res)
+                    //点击确定后让弹窗消失
+                    if(res.data.code==20000){
+                        //关闭弹窗
+                        this.dialogFormVisible= false,
+                            //成功的弹窗
+                            this.$message({
+                                message: '编辑成功',
+                                type: 'success'
+                            });
+                    }else{
+                        this.$message.error(res.data.msg);
+                    }
+                });
+            },
             //监听搜索按钮
             searchBtn:function(){
                 console.log("发送Ajax")
                 this.loadTable(this.page,this.limit)
+            },
+            //监听增加按钮
+            addBtn:function(){
+                alert('执行增加的方法')
+            },
+            //行修改按钮
+            handleEdit(index, row) {
+                console.log(index, row);
+                //第一个是索引 第二个是数据 点击后应当弹出一个修改框
+                this.dialogFormVisible=true;
+                //数据回显
+                this.studentEdit=row;
+            },
+            //行删除按钮
+            handleDelete(index, row) {
+                console.log(index, row);
             },
             sfktFormate:function(row, index) {
                 if (row.studentSex==1) {
@@ -148,9 +299,13 @@
                             }
                         }).then(res=>{
                             console.log(res)
-                            //把json数组赋值给tableData
-                            this.tableData=res.data.data.list;
-                            this.total=res.data.data.total
+                    if(res.data.code==20000) {
+                        //把json数组赋值给tableData
+                        this.tableData = res.data.data.list;
+                        this.total = res.data.data.total
+                    }else if(res.data.code==5001){
+                        this.$message.error(res.data.msg);
+                    }
                         });
             },
         },

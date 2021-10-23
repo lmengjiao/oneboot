@@ -2,8 +2,10 @@ package com.xiexin.dao;
 
 import com.xiexin.bean.Admin;
 import com.xiexin.bean.AdminExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+import java.util.Map;
 
 public interface AdminDAO {
     long countByExample(AdminExample example);
@@ -27,4 +29,7 @@ public interface AdminDAO {
     int updateByPrimaryKeySelective(Admin record);
 
     int updateByPrimaryKey(Admin record);
+
+    //五表联查
+    List<Map> selectMore(Map map);
 }

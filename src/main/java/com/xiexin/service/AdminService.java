@@ -5,6 +5,7 @@ import com.xiexin.bean.AdminExample;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface AdminService {
    
@@ -29,5 +30,8 @@ public interface AdminService {
     int updateByPrimaryKeySelective(Admin record);
 
     int updateByPrimaryKey(Admin record);
+
+    //五表联查
+    List<Map> selectMore(Map map);
 
 }
